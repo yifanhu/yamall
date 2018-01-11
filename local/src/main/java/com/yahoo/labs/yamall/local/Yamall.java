@@ -50,6 +50,7 @@ import com.yahoo.labs.yamall.parser.InstanceParser;
 import com.yahoo.labs.yamall.parser.LIBSVMParser;
 import com.yahoo.labs.yamall.parser.TSVParser;
 import com.yahoo.labs.yamall.parser.VWParser;
+import com.yahoo.labs.yamall.parser.VWParser2;
 
 public class Yamall {
 
@@ -146,7 +147,7 @@ public class Yamall {
                 .desc("number of factors for Factorization Machines default = 8")
                 .longOpt("fmNumberFactors").type(String.class).build());
         options.addOption(Option.builder().hasArg(true).required(false)
-                .desc("specify the parser to use. Currently available ones are: vw (default), libsvm, tsv")
+                .desc("specify the parser to use. Currently available ones are: vw (default), libsvm, tsv, vw2 (allow ignoring name spaces specified by comma separated strings)")
                 .longOpt("parser").type(String.class).build());
         options.addOption(Option.builder().hasArg(true).required(false)
                 .desc("schema file for the TSV input")
@@ -197,6 +198,8 @@ public class Yamall {
         InstanceParser instanceParser = null;
 		if (parserName.equals("vw"))
         	instanceParser = new VWParser(bitsHash, cmd.getOptionValue("ignore"), (invertHashName != null));
+        else if (parserName.equals("vw2"))
+            instanceParser = new VWParser2(bitsHash, cmd.getOptionValue("ignore"), (invertHashName != null));
         else if (parserName.equals("libsvm"))
         	instanceParser = new LIBSVMParser(bitsHash, (invertHashName != null));
         else if (parserName.equals("tsv")) {
