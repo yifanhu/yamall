@@ -41,6 +41,7 @@ import com.yahoo.labs.yamall.ml.SGD_VW;
 import com.yahoo.labs.yamall.parser.InstanceParser;
 import com.yahoo.labs.yamall.parser.TSVParser;
 import com.yahoo.labs.yamall.parser.VWParser;
+import com.yahoo.labs.yamall.parser.VWParser2;
 
 /**
  * Yamall - Hadoop version
@@ -74,6 +75,9 @@ public class Train extends Configured implements Tool {
 
             if (config.get("yamall.parser").equals("vw"))
                 parser = new VWParser(Integer.parseInt(config.get("yamall.bit_precision")), config.get("yamall.ignore"),
+                        true);
+            else if (config.get("yamall.parser").equals("vw2"))
+                parser = new VWParser2(Integer.parseInt(config.get("yamall.bit_precision")), config.get("yamall.ignore"),
                         true);
             else {
                 FileSystem fileSystem = FileSystem.get(config);
